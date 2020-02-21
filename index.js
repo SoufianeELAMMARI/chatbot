@@ -29,18 +29,6 @@ app.post('/webhook', (req, res) => {
             // will only ever contain one message, so we get index 0
             let webhook_event = entry.messaging[0];
             console.log(webhook_event);
-
-            // Get the sender PSID
-            let sender_psid = webhook_event.sender.id;
-            console.log('Sender PSID: ' + sender_psid);
-
-            // Check if the event is a message or postback and
-            // pass the event to the appropriate handler function
-            if (webhook_event.message) {
-                handleMessage(sender_psid, webhook_event.message);
-            } else if (webhook_event.postback) {
-                handlePostback(sender_psid, webhook_event.postback);
-            }
         });
 
         // Returns a '200 OK' response to all requests
@@ -52,4 +40,4 @@ app.post('/webhook', (req, res) => {
 
 });
 
-//EAAMG5Fcw2fkBAMaVG5H1ZC4tUOfL8b9iYO9vFmD2wvb7IrczPTgS5LFuwCa3wInDyWKzkyZB1ZAdZAAZBB1X4nZCGhYKpmtesU6hb1Ft2PyFPd0qosFEYZBy0tOaH4j4KgtJFYDfYWE5uDc7OPZBzPWjDRYcTypp88P80hTZBujXZA4aNKYRe60k9F
+//EAAMG5Fcw2fkBADD1rt5f6dzaDrbbrjKTimmDQCZBZCUkDuNxJJGMAejcfcyNwiEjDTiDSbNn9YO5QWjKXYObRpMQFZCDkInZABNg6CxCU1fLm6ZCko1kNPt28VKthlupgIMQtTUeuSni01wO3HiYG6bEeN5J8azSXkZA1IDrYAStUecsBGZAtsf
