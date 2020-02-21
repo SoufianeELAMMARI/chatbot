@@ -15,6 +15,7 @@ app.get('/', verifyWebhook);
 
 // Creates the endpoint for our webhook
 app.post('/webhook', (req, res) => {
+    console.log('req: ' + req.body);
 
     let body = req.body;
 
