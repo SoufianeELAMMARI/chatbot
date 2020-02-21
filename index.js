@@ -11,10 +11,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.listen(PORT, () => console.log('Express server is listening on port ',PORT));
-app.get('/', verifyWebhook);
+
+app.get('/', (req, res) => {
+	res.send('Hello I am a chatbot');
+});
+
+app.get('/webhook/', verifyWebhook);
+
 
 // Creates the endpoint for our webhook
-app.post('/webhook', (req, res) => {
+app.post('/webhook/', (req, res) => {
     console.log('req: ' + req.body);
 
     let body = req.body;
