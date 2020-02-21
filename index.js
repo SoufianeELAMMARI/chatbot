@@ -1,13 +1,16 @@
-var express = require('express')
-    request = require('request')
-    bodyParser=require('body-parser');
+var PORT = process.env.PORT || 5000;
+var express = require('express');
+var app = express();
 
-var app=express();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+var http = require('http');
+var server = http.Server(app);
 
+app.use(express.static('client'));
 
-app.listen(5000, () => console.log('Express server is listening on port 5000'));
+server.listen(PORT, function() {
+  console.log('Chat server running');
+});
+
 app.get('/',function(req,res){
       res.send("hi")
 });
