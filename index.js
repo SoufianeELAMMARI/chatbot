@@ -1,16 +1,15 @@
 var PORT = process.env.PORT || 5000;
-var express = require('express');
-var app = express();
 
-var http = require('http');
-var server = http.Server(app);
+const express = require('express');
+const bodyParser = require('body-parser');
+ const verifyWebhook = require('./verify-webhook');
 
-app.use(express.static('client'));
+const app = express();
 
-server.listen(PORT, function() {
-  console.log('Chat server running');
-});
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/',function(req,res){
-      res.send("hi")
-});
+
+app.listen(PORT, () => console.log('Express server is listening on port ',PORT));
+app.get('/', verifyWebhook);
+
