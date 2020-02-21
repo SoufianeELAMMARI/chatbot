@@ -1,4 +1,6 @@
  const verifyWebhook = (req, res) => {
+      console.log('req: ' + req);
+
       let VERIFY_TOKEN = 'pusher-bot';
 
       let mode = req.query['hub.mode'];
