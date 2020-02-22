@@ -68,9 +68,44 @@ function callSendAPI(sender_psid, response) {
     },
     "messaging_type": "RESPONSE",
      "message":{
-     "text": "Pick a color:"            }
+     "text": "hello:"      
+       }
+  }
+  let  seen = {
+    "recipient": {
+      "id": sender_psid
+    },
+    "sender_action":"mark_seen"
+  }
+   let typing_on = {
+    "recipient": {
+      "id": sender_psid
+    },
+    "sender_action":"typing_on"
   }
 
+  request({
+     uri: 'https://graph.facebook.com/v2.6/me/messages?access_token=EAAMG5Fcw2fkBALNvTsvqVUay1CBiwNwcQZBDDC1KWeoEqpHpAikIvFsx4XIBq8jIX4w7I1GsZAqrz7ZArWOcjd7TZCVTKZCtxHej1bHxt2uamGqvxtIipLEvfiwZCFUmTgxJULWyYN9OcHObdWjDFiHTnJ3ujYnbZAJ9c4MNCScXBTWrT5k6go6',
+     method: 'POST',
+     json: seen
+  }, (err, res, body) => {
+    if (!err) {
+      console.log('message sent!')
+    } else {
+      console.error("Unable to send message:" + err);
+    }
+  }); 
+request({
+     uri: 'https://graph.facebook.com/v2.6/me/messages?access_token=EAAMG5Fcw2fkBALNvTsvqVUay1CBiwNwcQZBDDC1KWeoEqpHpAikIvFsx4XIBq8jIX4w7I1GsZAqrz7ZArWOcjd7TZCVTKZCtxHej1bHxt2uamGqvxtIipLEvfiwZCFUmTgxJULWyYN9OcHObdWjDFiHTnJ3ujYnbZAJ9c4MNCScXBTWrT5k6go6',
+     method: 'POST',
+     json: typing_on
+  }, (err, res, body) => {
+    if (!err) {
+      console.log('message sent!')
+    } else {
+      console.error("Unable to send message:" + err);
+    }
+  }); 
   // Send the HTTP request to the Messenger Platform
   request({
      uri: 'https://graph.facebook.com/v2.6/me/messages?access_token=EAAMG5Fcw2fkBALNvTsvqVUay1CBiwNwcQZBDDC1KWeoEqpHpAikIvFsx4XIBq8jIX4w7I1GsZAqrz7ZArWOcjd7TZCVTKZCtxHej1bHxt2uamGqvxtIipLEvfiwZCFUmTgxJULWyYN9OcHObdWjDFiHTnJ3ujYnbZAJ9c4MNCScXBTWrT5k6go6',
