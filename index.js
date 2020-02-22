@@ -67,7 +67,8 @@ function callSendAPI(sender_psid, response) {
       "id": sender_psid
     },
     "messaging_type": "RESPONSE",
-    "message": response  
+     "message":{
+     "text": "Pick a color:"            }
   }
 
   // Send the HTTP request to the Messenger Platform
