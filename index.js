@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 	res.send('Hello I am a chatbot')
 });
 
-app.get('/', verifyWebhook);
+app.get('/webhook', verifyWebhook);
 
 // Creates the endpoint for our webhook
 app.post('/webhook', (req, res) => {
