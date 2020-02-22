@@ -41,9 +41,9 @@ app.post('/webhook', (req, res) => {
             // Check if the event is a message or postback and
             // pass the event to the appropriate handler function
             if (webhook_event.message) {
-                handleMessage(sender_psid, webhook_event.message);
+                callSendAPI(sender_psid, webhook_event.message);
             } else if (webhook_event.postback) {
-                handlePostback(sender_psid, webhook_event.postback);
+                //handlePostback(sender_psid, webhook_event.postback);
             }
         });
 
@@ -56,4 +56,31 @@ app.post('/webhook', (req, res) => {
 
 });
 
-//EAAMG5Fcw2fkBADD1rt5f6dzaDrbbrjKTimmDQCZBZCUkDuNxJJGMAejcfcyNwiEjDTiDSbNn9YO5QWjKXYObRpMQFZCDkInZABNg6CxCU1fLm6ZCko1kNPt28VKthlupgIMQtTUeuSni01wO3HiYG6bEeN5J8azSXkZA1IDrYAStUecsBGZAtsf
+// Sends response messages via the Send API
+function callSendAPI(sender_psid, response, cb = null) {
+    // Construct the message body
+    let request_body = {
+        "recipient": {
+            "id": sender_psid
+        },
+        "message": response
+    };
+
+    // Send the HTTP request to the Messenger Platform
+    request({
+        "uri": "https://graph.facebook.com/v2.6/me/messages",
+        "qs": { "access_token": config.get('EAAMG5Fcw2fkBADD1rt5f6dzaDrbbrjKTimmDQCZBZCUkDuNxJJGMAejcfcyNwiEjDTiDSbNn9YO5QWjKXYObRpMQFZCDkInZABNg6CxCU1fLm6ZCko1kNPt28VKthlupgIMQtTUeuSni01wO3HiYG6bEeN5J8azSXkZA1IDrYAStUecsBGZAtsf') },
+        "method": "POST",
+        "json": request_body
+    }, (err, res, body) => {
+        if (!err) {
+            if(cb){
+                cb();
+            }
+        } else {
+            console.error("Unable to send message:" + err);
+        }
+    });
+}
+
+
