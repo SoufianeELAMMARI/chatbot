@@ -1,11 +1,11 @@
 var PORT = process.env.PORT || 5000;
-
 const express = require('express');
 const request = require('request');
 const bodyParser = require('body-parser');
 const verifyWebhook = require('./verify-webhook');
 
 const app = express();
+let VERIFY_TOKEN = 'EAAMG5Fcw2fkBAIhGzUTmdDRwQolGax3XLrMTZAOseSZCVPGgSH9TjtdeY9dApkHGmnmfetJUd0Agp5kw43BxWhs0U9JTP3y13vZBR0BUFIhP9fZBI6cV6NpMmAQsz3QY4l0lYZAgMI5TlSBzAI5ia5NvSAZC41teFpDoZCw6HLHTjShtTEFbxl1';
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -58,30 +58,27 @@ app.post('/webhook', (req, res) => {
 });
 
 // Sends response messages via the Send API
-function callSendAPI(sender_psid, response, cb = null) {
-    // Construct the message body
-    let request_body = {
-        "recipient": {
-            "id": sender_psid
-        },
-        "message": response
-    };
+function callSendAPI(sender_psid, response) {
+  // Construct the message body
+  let request_body = {
+    "recipient": {
+      "id": sender_psid
+    },
+    "message": response
+  }
 
-    // Send the HTTP request to the Messenger Platform
-    request({
-        "uri": "https://graph.facebook.com/v2.6/me/messages?access_token=EAAMG5Fcw2fkBAIhGzUTmdDRwQolGax3XLrMTZAOseSZCVPGgSH9TjtdeY9dApkHGmnmfetJUd0Agp5kw43BxWhs0U9JTP3y13vZBR0BUFIhP9fZBI6cV6NpMmAQsz3QY4l0lYZAgMI5TlSBzAI5ia5NvSAZC41teFpDoZCw6HLHTjShtTEFbxl1",
-        "method": "POST",
-        "json": request_body
-    }, (err, res, body) => {
-        console.log("must send");
-        if (!err) {
-            if(cb){
-                cb();
-            }
-        } else {
-            console.error("Unable to send message:" + err);
-        }
-    });
+  // Send the HTTP request to the Messenger Platform
+  request({
+    "uri": "https://graph.facebook.com/v2.6/me/messages",
+    "qs": { "access_token":VERIFY_TOKEN},
+    "method": "POST",
+    "json": request_body
+  }, (err, res, body) => {
+    if (!err) {
+      console.log('message sent!')
+    } else {
+      console.error("Unable to send message:" + err);
+    }
+  }); 
 }
-
 
