@@ -5,7 +5,9 @@ const bodyParser = require('body-parser');
 const verifyWebhook = require('./verify-webhook');
 
 const app = express();
-let VERIFY_TOKEN = 'EAAMG5Fcw2fkBAIhGzUTmdDRwQolGax3XLrMTZAOseSZCVPGgSH9TjtdeY9dApkHGmnmfetJUd0Agp5kw43BxWhs0U9JTP3y13vZBR0BUFIhP9fZBI6cV6NpMmAQsz3QY4l0lYZAgMI5TlSBzAI5ia5NvSAZC41teFpDoZCw6HLHTjShtTEFbxl1';
+let VERIFY_TOKEN = 'EAAMG5Fcw2fkBALNvTsvqVUay1CBiwNwcQZBDDC1KWeoEqpHpAikIvFsx4XIBq8jIX4w7I1GsZAqrz7ZArWOcjd7TZCVTKZCtxHej1bHxt2uamGqvxtIipLEvfiwZCFUmTgxJULWyYN9OcHObdWjDFiHTnJ3ujYnbZAJ9c4MNCScXBTWrT5k6go6';
+//cle secret cfb3d1f7d09e3cda5ec08eb192c35dcd
+//id app 852002715261433+cfb3d1f7d09e3cda5ec08eb192c35dcd
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -69,10 +71,12 @@ function callSendAPI(sender_psid, response) {
 
   // Send the HTTP request to the Messenger Platform
   request({
-    "uri": "https://graph.facebook.com/v2.6/me/messages",
-    "qs": { "access_token":VERIFY_TOKEN},
-    "method": "POST",
-    "json": request_body
+     uri: 'https://graph.facebook.com/v2.6/me/messages',
+     qs: {
+       access_token: VERIFY_TOKEN
+     },
+     method: 'POST',
+     json: request_body
   }, (err, res, body) => {
     if (!err) {
       console.log('message sent!')
