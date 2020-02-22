@@ -70,7 +70,7 @@ function callSendAPI(sender_psid, response, cb = null) {
     // Send the HTTP request to the Messenger Platform
     request({
         "uri": "https://graph.facebook.com/v2.6/me/messages",
-        "qs": { "access_token": config.get('EAAMG5Fcw2fkBADD1rt5f6dzaDrbbrjKTimmDQCZBZCUkDuNxJJGMAejcfcyNwiEjDTiDSbNn9YO5QWjKXYObRpMQFZCDkInZABNg6CxCU1fLm6ZCko1kNPt28VKthlupgIMQtTUeuSni01wO3HiYG6bEeN5J8azSXkZA1IDrYAStUecsBGZAtsf') },
+        "qs": { "access_token": config.get('EAAMG5Fcw2fkBADnkkNGppK67NxGEqfd09ZCxZAH2KppRfJ4GM3WhQJAcDuvCZCX4aWCDyDpWJtyCP87HjYU0Ml92ZBDBFday2AFcIEStyrDYRHlOXJywmH2BcYpZAr4dcKaQAiKVz0jmja535ZALl8zAqHcniZBgKqS7yJRoKYVQjOzYIVGr0abjTxIN4NgEUtoxz4cXe4HYQZDZD') },
         "method": "POST",
         "json": request_body
     }, (err, res, body) => {
@@ -85,3 +85,4 @@ function callSendAPI(sender_psid, response, cb = null) {
 }
 
 
+//EAAMG5Fcw2fkBADnkkNGppK67NxGEqfd09ZCxZAH2KppRfJ4GM3WhQJAcDuvCZCX4aWCDyDpWJtyCP87HjYU0Ml92ZBDBFday2AFcIEStyrDYRHlOXJywmH2BcYpZAr4dcKaQAiKVz0jmja535ZALl8zAqHcniZBgKqS7yJRoKYVQjOzYIVGr0abjTxIN4NgEUtoxz4cXe4HYQZDZD
