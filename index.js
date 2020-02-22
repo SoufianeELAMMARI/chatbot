@@ -1,8 +1,9 @@
 var PORT = process.env.PORT || 5000;
 
 const express = require('express');
+const request = require('request');
 const bodyParser = require('body-parser');
- const verifyWebhook = require('./verify-webhook');
+const verifyWebhook = require('./verify-webhook');
 
 const app = express();
 
