@@ -11,16 +11,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.listen(PORT, () => console.log('Express server is listening on port ',PORT));
-
 app.get('/', (req, res) => {
-	res.send('Hello I am a chatbot');
+	res.send('Hello I am a chatbot')
 });
 
-app.get('/webhook/', verifyWebhook);
-
+app.get('/', verifyWebhook);
 
 // Creates the endpoint for our webhook
-app.post('/webhook/', (req, res) => {
+app.post('/webhook', (req, res) => {
     console.log('req: ' + req.body);
 
     let body = req.body;
@@ -35,6 +33,18 @@ app.post('/webhook/', (req, res) => {
             // will only ever contain one message, so we get index 0
             let webhook_event = entry.messaging[0];
             console.log(webhook_event);
+
+            // Get the sender PSID
+            let sender_psid = webhook_event.sender.id;
+            console.log('Sender PSID: ' + sender_psid);
+
+            // Check if the event is a message or postback and
+            // pass the event to the appropriate handler function
+            if (webhook_event.message) {
+                handleMessage(sender_psid, webhook_event.message);
+            } else if (webhook_event.postback) {
+                handlePostback(sender_psid, webhook_event.postback);
+            }
         });
 
         // Returns a '200 OK' response to all requests
