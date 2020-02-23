@@ -80,7 +80,7 @@ function SendMessage(sender_psid, message) {
     },
     "messaging_type": "RESPONSE",
      "message":{
-     "text": "supeeeeeeer"   
+     "text": message.text   
        }
   }
 
