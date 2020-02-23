@@ -43,6 +43,8 @@ app.post('/webhook', (req, res) => {
             // Check if the event is a message or postback and
             // pass the event to the appropriate handler function
             if (webhook_event.message) {
+              console.log('webhook ********************, event message: ' + webhook_event.message);
+
             // The bot is no longer waiting for answer
                 SendMessage(sender_psid, webhook_event.message);
             } else if (webhook_event.postback) {
@@ -68,7 +70,8 @@ app.post('/webhook', (req, res) => {
 
 // Sends response messages via the Send API
 function SendMessage(sender_psid, message) {
-console.log("**************************************",message);
+  console.log('message ********************, event message: ' + message);
+
   // Construct the message body
   let action="typing_on";
   let messageData = {
