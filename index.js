@@ -76,7 +76,7 @@ function SendMessage(sender_psid, message) {
     },
     "messaging_type": "RESPONSE",
      "message":{
-     "text": message     
+     "text": "heeey"     
        }
   }
 
