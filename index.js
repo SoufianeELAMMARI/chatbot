@@ -73,7 +73,10 @@ function SendMessage(sender_psid, message) {
   console.log('message ********************, event message: ' + message);
 
   // Construct the message body
-  let action="typing_on";
+  let action={
+    mark_seen:"mark_seen",
+    typing_on:"typing_on",
+  }
   let messageData = {
     "recipient": {
       "id": sender_psid
@@ -84,7 +87,8 @@ function SendMessage(sender_psid, message) {
        }
   }
 
-  sendAction(sender_psid,action);
+  sendAction(sender_psid,action.mark_seen);
+  sendAction(sender_psid,action.typing_on);
   setTimeout(() => {
     callSendAPI(messageData);
   }, 5000);
