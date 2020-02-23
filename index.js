@@ -68,7 +68,7 @@ app.post('/webhook', (req, res) => {
 
 // Sends response messages via the Send API
 function SendMessage(sender_psid, message) {
-  
+console.log("**************************************",message);
   // Construct the message body
   let action="typing_on";
   let messageData = {
@@ -77,7 +77,7 @@ function SendMessage(sender_psid, message) {
     },
     "messaging_type": "RESPONSE",
      "message":{
-     "text": message   
+     "text": "supeeeeeeer"   
        }
   }
 
