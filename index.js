@@ -6,9 +6,7 @@ const verifyWebhook = require('./verify-webhook');
 const {setNotWaiting,getWaiting}  = require('./waiting');
 
 const app = express();
-let VERIFY_TOKEN = 'EAAMG5Fcw2fkBALNvTsvqVUay1CBiwNwcQZBDDC1KWeoEqpHpAikIvFsx4XIBq8jIX4w7I1GsZAqrz7ZArWOcjd7TZCVTKZCtxHej1bHxt2uamGqvxtIipLEvfiwZCFUmTgxJULWyYN9OcHObdWjDFiHTnJ3ujYnbZAJ9c4MNCScXBTWrT5k6go6';
-//cle secret cfb3d1f7d09e3cda5ec08eb192c35dcd
-//id app 852002715261433+cfb3d1f7d09e3cda5ec08eb192c35dcd
+let FB_PAGE_TOKEN = 'EAAMG5Fcw2fkBALNvTsvqVUay1CBiwNwcQZBDDC1KWeoEqpHpAikIvFsx4XIBq8jIX4w7I1GsZAqrz7ZArWOcjd7TZCVTKZCtxHej1bHxt2uamGqvxtIipLEvfiwZCFUmTgxJULWyYN9OcHObdWjDFiHTnJ3ujYnbZAJ9c4MNCScXBTWrT5k6go6';
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -46,33 +44,11 @@ app.post('/webhook', (req, res) => {
             // pass the event to the appropriate handler function
             if (webhook_event.message) {
             // The bot is no longer waiting for answer
-                setNotWaiting();
-                callSendAPI(sender_psid, webhook_event.message);
-
+                SendMessage(sender_psid, webhook_event.message);
             } else if (webhook_event.postback) {
               //handlePostback(sender_psid, webhook_event.postback);
             } else if (webhook_event.read) {
                
-  // If we are witing for an answer, begin counting seconds
-  if (getWaiting()) {
-    setTimeout(() => {
-      if (getWaiting()) {
-
-        // if after counting the bot is still waiting, prompt user
-        console.log('Timeout, user will be propmted again');
-        sendTextMessage(webhook_event.sender.id, 'J\'attends toujours votre réponse !?');
-
-        setNotWaiting();
-      }
-      else {
-        console.log('BOT is not longer waiting');
-      }
-    }, WAITING_BEFORE_PROMPT);
-  }
-  else {
-
-    console.log(`Nothing to do because waiting is ${getWaiting()}`);
-  }
               //receivedSeen(event);
             } else if (webhook_event.delivery) {
               //receivedDelivery(event);
@@ -91,29 +67,56 @@ app.post('/webhook', (req, res) => {
 });
 
 // Sends response messages via the Send API
-function callSendAPI(sender_psid, response) {
+function SendMessage(sender_psid, message) {
   // Construct the message body
-  let request_body = {
+  let action="typing_on";
+  let messageData = {
     "recipient": {
       "id": sender_psid
     },
     "messaging_type": "RESPONSE",
      "message":{
-     "text": "Pick a color:"      
+     "text": message     
        }
   }
- 
-  // Send the HTTP request to the Messenger Platform
-  request({
-     uri: 'https://graph.facebook.com/v2.6/me/messages?access_token=EAAMG5Fcw2fkBALNvTsvqVUay1CBiwNwcQZBDDC1KWeoEqpHpAikIvFsx4XIBq8jIX4w7I1GsZAqrz7ZArWOcjd7TZCVTKZCtxHej1bHxt2uamGqvxtIipLEvfiwZCFUmTgxJULWyYN9OcHObdWjDFiHTnJ3ujYnbZAJ9c4MNCScXBTWrT5k6go6',
-     method: 'POST',
-     json: request_body
-  }, (err, res, body) => {
-    if (!err) {
-      console.log('message sent!')
-    } else {
-      console.error("Unable to send message:" + err);
-    }
-  }); 
+
+  sendAction(sender_psid,action);
+  setTimeout(() => {
+    callSendAPI(messageData);
+  }, 5000);
+
 }
 
+// Sends response messages via the Send API
+function sendAction(sender_psid, action) {
+  // Construct the message body
+  let messageData = {
+    "recipient": {
+      "id": sender_psid
+    },
+    "sender_action":action 
+       }
+  callSendAPI(messageData);
+}
+
+var callSendAPI = (messageData) => {
+  // We are using request package to send HTTP request to FB API
+  request({
+     uri: 'https://graph.facebook.com/v2.6/me/messages',
+     qs: {
+       access_token: FB_PAGE_TOKEN
+     },
+     method: 'POST',
+     json: messageData
+   }, (error, response, body) => {
+     if (!error && response.statusCode === 200) {
+
+       var recipientID = body.recipient_id;
+       var messageID = body.message_id;
+     } else {
+       console.error(`#### Message sent errors ####`);
+       console.error(error);
+     }
+
+  });
+};
