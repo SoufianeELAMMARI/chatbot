@@ -3,6 +3,7 @@ const express = require('express');
 const request = require('request');
 const bodyParser = require('body-parser');
 const verifyWebhook = require('./verify-webhook');
+const {setNotWaiting,getWaiting}  = require('./waiting');
 
 const app = express();
 let VERIFY_TOKEN = 'EAAMG5Fcw2fkBALNvTsvqVUay1CBiwNwcQZBDDC1KWeoEqpHpAikIvFsx4XIBq8jIX4w7I1GsZAqrz7ZArWOcjd7TZCVTKZCtxHej1bHxt2uamGqvxtIipLEvfiwZCFUmTgxJULWyYN9OcHObdWjDFiHTnJ3ujYnbZAJ9c4MNCScXBTWrT5k6go6';
@@ -44,20 +45,36 @@ app.post('/webhook', (req, res) => {
             // Check if the event is a message or postback and
             // pass the event to the appropriate handler function
             if (webhook_event.message) {
-              console.log("#################event.message ", webhook_event.message);
-
+            // The bot is no longer waiting for answer
+                setNotWaiting();
                 callSendAPI(sender_psid, webhook_event.message);
+
             } else if (webhook_event.postback) {
-
-              console.log("#################webhook_event.postback", webhook_event.postback);
-
-                //handlePostback(sender_psid, webhook_event.postback);
+              //handlePostback(sender_psid, webhook_event.postback);
             } else if (webhook_event.read) {
-              console.log("#################webhook_event.read",webhook_event.read);
+               
+  // If we are witing for an answer, begin counting seconds
+  if (getWaiting()) {
+    setTimeout(() => {
+      if (getWaiting()) {
+
+        // if after counting the bot is still waiting, prompt user
+        console.log('Timeout, user will be propmted again');
+        sendTextMessage(webhook_event.sender.id, 'J\'attends toujours votre réponse !?');
+
+        setNotWaiting();
+      }
+      else {
+        console.log('BOT is not longer waiting');
+      }
+    }, WAITING_BEFORE_PROMPT);
+  }
+  else {
+
+    console.log(`Nothing to do because waiting is ${getWaiting()}`);
+  }
               //receivedSeen(event);
             } else if (webhook_event.delivery) {
-              console.log("#################webhook_event.delivery",webhook_event.delivery);
-
               //receivedDelivery(event);
             } else {
               console.log("Webhook received unknown event : ", event);
