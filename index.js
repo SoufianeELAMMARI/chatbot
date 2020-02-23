@@ -90,17 +90,28 @@ function callSendAPI(sender_psid, response) {
      json: seen
   }, (err, res, body) => {
     if (!err) {
-      
-      request({
+      console.log('message sent!')
+    } else {
+      console.error("Unable to send message:" + err);
+    }
+  }); 
+
+
+request({
      uri: 'https://graph.facebook.com/v2.6/me/messages?access_token=EAAMG5Fcw2fkBALNvTsvqVUay1CBiwNwcQZBDDC1KWeoEqpHpAikIvFsx4XIBq8jIX4w7I1GsZAqrz7ZArWOcjd7TZCVTKZCtxHej1bHxt2uamGqvxtIipLEvfiwZCFUmTgxJULWyYN9OcHObdWjDFiHTnJ3ujYnbZAJ9c4MNCScXBTWrT5k6go6',
      method: 'POST',
-     json: typing_on
+     json: typing_body
   }, (err, res, body) => {
     if (!err) {
       console.log('message sent!')
-
+    } else {
+      console.error("Unable to send message:" + err);
+    }
+  }); 
   // Send the HTTP request to the Messenger Platform
-  request({
+
+  setTimeout(function(){ 
+   request({
      uri: 'https://graph.facebook.com/v2.6/me/messages?access_token=EAAMG5Fcw2fkBALNvTsvqVUay1CBiwNwcQZBDDC1KWeoEqpHpAikIvFsx4XIBq8jIX4w7I1GsZAqrz7ZArWOcjd7TZCVTKZCtxHej1bHxt2uamGqvxtIipLEvfiwZCFUmTgxJULWyYN9OcHObdWjDFiHTnJ3ujYnbZAJ9c4MNCScXBTWrT5k6go6',
      method: 'POST',
      json: request_body
@@ -110,17 +121,8 @@ function callSendAPI(sender_psid, response) {
     } else {
       console.error("Unable to send message:" + err);
     }
-  }); 
+  }); },4000);
 
-  
-    } else {
-      console.error("Unable to send message:" + err);
-    }
-  }); 
-    } else {
-      console.error("Unable to send message:" + err);
-    }
-  }); 
 
 }
 
