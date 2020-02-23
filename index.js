@@ -88,7 +88,9 @@ function SendMessage(sender_psid, message) {
   }
 
   sendAction(sender_psid,action.mark_seen);
-  sendAction(sender_psid,action.typing_on);
+  setTimeout(() => {
+    sendAction(sender_psid,action.typing_on);
+  }, 1000);
   setTimeout(() => {
     callSendAPI(messageData);
   }, 5000);
