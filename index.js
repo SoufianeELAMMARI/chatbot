@@ -80,7 +80,7 @@ app.post('/webhook', (req, res) => {
               console.log('webhook ********************, event message: ' + webhook_event.message);
 
             // The bot is no longer waiting for answer
-                SendMessage(sender_psid, NlpManagerHandler(webhook_event.message));
+                SendMessage(sender_psid, webhook_event.message);
 
             } else if (webhook_event.postback) {
               //handlePostback(sender_psid, webhook_event.postback);
@@ -118,7 +118,7 @@ function SendMessage(sender_psid, message) {
     },
     "messaging_type": "RESPONSE",
      "message":{
-     "text": message.text   
+     "text": NlpManagerHandler(message.text)   
        }
   }
 
