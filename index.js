@@ -46,7 +46,7 @@ manager.addAnswer('en', 'greetings.hello', 'Salam!');
     await manager.train();
     manager.save();
     matchedResponse=await manager.process('en', message);
-    console.log(response );
+    console.log(matchedResponse);
 })();
     return matchedResponse;
   }
