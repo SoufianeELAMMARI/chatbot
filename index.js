@@ -57,10 +57,7 @@ manager.addAnswer('en', 'greetings.hello', 'Salam!');
     return await manager.process('en', message);
 }
 
- app.get('/test',()=>{
 
-      console.log("-------------- before-dataNlp----------");
-      }
 
 app.get('/webhook', verifyWebhook);
 
