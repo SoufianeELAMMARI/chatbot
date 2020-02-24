@@ -111,15 +111,15 @@ function SendMessage(sender_psid, message) {
     mark_seen:"mark_seen",
     typing_on:"typing_on",
   }
-   console.log("---------------messageToSend----------",message.text);
-
+   console.log("---------------messageToSend----------",;
+   let m=await NlpManagerHandler(message.text))
   let messageData = {
     "recipient": {
       "id": sender_psid
     },
     "messaging_type": "RESPONSE",
      "message":{
-     "text":NlpManagerHandler(message.text)
+     "text":NlpManagerHandler(m)
        }
   }
 
