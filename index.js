@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 });
 
 
-async function NlpManagerHandler(message) {
+ function NlpManagerHandler(message) {
 const manager = new NlpManager({ languages: ['en'] });
 // Adds the utterances and intents for the NLP
 manager.addDocument('en', 'goodbye for now', 'greetings.bye');
@@ -41,13 +41,16 @@ manager.addAnswer('en', 'greetings.hello', 'Greetings!');
 manager.addAnswer('en', 'greetings.hello', 'Salam!');
 
 // Train and save the model.
-
+(async() => {
     await manager.train();
     manager.save();
-    matchedResponse=await manager.process('en', message);
-    console.log(matchedResponse);
-    return matchedResponse;
+    const response = await manager.process('en', 'I should go now');
+    matchedResponse = response;
+    console.log(response);
+})();
+return matchedResponse;
   }
+
 
 
 app.get('/webhook', verifyWebhook);
@@ -104,21 +107,24 @@ app.post('/webhook', (req, res) => {
 
 // Sends response messages via the Send API
 function SendMessage(sender_psid, message) {
-  console.log('message ********************, event message: ' + message);
 
+
+   let dataNlp=NlpManagerHandler(message.text);
   // Construct the message body
+  
   let action={
     mark_seen:"mark_seen",
     typing_on:"typing_on",
   }
-   console.log("---------------messageToSend----------");
+      console.log("-------------- final-dataNlp----------",dataNlp);
+
   let messageData = {
     "recipient": {
       "id": sender_psid
     },
     "messaging_type": "RESPONSE",
      "message":{
-     "text":NlpManagerHandler(message.text).then((res)=>{return res;}) //to do
+     "text": dataNlp
        }
   }
 
@@ -170,3 +176,5 @@ var callSendAPI = (messageData) => {
 
   });
 };
+
+
