@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 });
 
 
- function NlpManagerHandler(message) {
+ 
 const manager = new NlpManager({ languages: ['en'] });
 // Adds the utterances and intents for the NLP
 manager.addDocument('en', 'goodbye for now', 'greetings.bye');
@@ -41,17 +41,26 @@ manager.addAnswer('en', 'greetings.hello', 'Greetings!');
 manager.addAnswer('en', 'greetings.hello', 'Salam!');
 
 // Train and save the model.
-(async() => {
+/*(async() => {
     await manager.train();
     manager.save();
     const response = await manager.process('en', 'I should go now');
     matchedResponse = response;
     console.log(response);
-})();
-return matchedResponse;
-  }
+})();*/
 
+ async function getDataApi(message){
+  await manager.train();
+    manager.save();
+    //const response = await manager.process('en', 'I should go now');
+    //console.log(response);
+    return await manager.process('en', message);
+}
 
+ app.get('/test',()=>{
+
+      console.log("-------------- before-dataNlp----------");
+      }
 
 app.get('/webhook', verifyWebhook);
 
@@ -108,15 +117,14 @@ app.post('/webhook', (req, res) => {
 // Sends response messages via the Send API
 function SendMessage(sender_psid, message) {
 
-
-   let dataNlp=NlpManagerHandler(message.text);
-  // Construct the message body
-  
-  let action={
+  console.log("-------------- before-dataNlp----------");
+const dataNlp= getDataApi(message.text);
+  // Construct the message body*
+      dataNlp.then((res)=>{
+let action={
     mark_seen:"mark_seen",
     typing_on:"typing_on",
   }
-      console.log("-------------- final-dataNlp----------",dataNlp);
 
   let messageData = {
     "recipient": {
@@ -124,10 +132,10 @@ function SendMessage(sender_psid, message) {
     },
     "messaging_type": "RESPONSE",
      "message":{
-     "text": dataNlp
+     "text": res.answer
        }
   }
-
+       
   sendAction(sender_psid,action.mark_seen);
 
 
@@ -138,6 +146,9 @@ function SendMessage(sender_psid, message) {
   setTimeout(() => {
     callSendAPI(messageData);
   }, 3000);
+   
+      } );
+  
 
 }
 
