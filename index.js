@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 });
 
 
-function NlpManagerHandler(message) {
+async function NlpManagerHandler(message) {
 const manager = new NlpManager({ languages: ['en'] });
 // Adds the utterances and intents for the NLP
 manager.addDocument('en', 'goodbye for now', 'greetings.bye');
@@ -41,11 +41,12 @@ manager.addAnswer('en', 'greetings.hello', 'Greetings!');
 manager.addAnswer('en', 'greetings.hello', 'Salam!');
 
 // Train and save the model.
-(async() => {
+
     await manager.train();
     manager.save();
     matchedResponse=await manager.process('en', message);
-})();
+    console.log(matchedResponse);
+    return matchedResponse;
   }
 
 
@@ -110,7 +111,7 @@ function SendMessage(sender_psid, message) {
     mark_seen:"mark_seen",
     typing_on:"typing_on",
   }
-   console.log("---------------messageToSend----------",matchedResponse);
+   console.log("---------------messageToSend----------",message.text);
 
   let messageData = {
     "recipient": {
@@ -118,7 +119,7 @@ function SendMessage(sender_psid, message) {
     },
     "messaging_type": "RESPONSE",
      "message":{
-     "text":matchedResponse
+     "text":NlpManagerHandler(message.text)
        }
   }
 
