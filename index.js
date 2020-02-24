@@ -145,6 +145,8 @@ function sendAction(sender_psid, action) {
 }
 
 var callSendAPI = (messageData) => {
+        console.log("---------------messageBody----------",messageData);
+
   // We are using request package to send HTTP request to FB API
   request({
      uri: 'https://graph.facebook.com/v2.6/me/messages',
