@@ -1,3 +1,4 @@
+const { NlpManager } = require('node-nlp');
 var PORT = process.env.PORT || 5000;
 const express = require('express');
 const request = require('request');
@@ -16,6 +17,39 @@ app.listen(PORT, () => console.log('Express server is listening on port ',PORT))
 app.get('/', (req, res) => {
 	res.send('Hello I am a chatbot')
 });
+
+
+function NlpManager(message) {
+const manager = new NlpManager({ languages: ['en'] });
+// Adds the utterances and intents for the NLP
+manager.addDocument('en', 'goodbye for now', 'greetings.bye');
+manager.addDocument('en', 'bye bye take care', 'greetings.bye');
+manager.addDocument('en', 'okay see you later', 'greetings.bye');
+manager.addDocument('en', 'bye for now', 'greetings.bye');
+manager.addDocument('en', 'i must go', 'greetings.bye');
+manager.addDocument('en', 'hello', 'greetings.hello');
+manager.addDocument('en', 'hi', 'greetings.hello');
+manager.addDocument('en', 'howdy', 'greetings.hello');
+manager.addDocument('en', 'salam', 'greetings.hello');
+
+ 
+// Train also the NLG
+manager.addAnswer('en', 'greetings.bye', 'Till next time');
+manager.addAnswer('en', 'greetings.bye', 'see you soon!');
+manager.addAnswer('en', 'greetings.hello', 'Hey there!');
+manager.addAnswer('en', 'greetings.hello', 'Greetings!');
+manager.addAnswer('en', 'greetings.hello', 'Salam!');
+
+// Train and save the model.
+(async() => {
+    await manager.train();
+    manager.save();
+    const response = await manager.process('en', message);
+    console.log(response );
+})();
+
+  }
+
 
 app.get('/webhook', verifyWebhook);
 
@@ -46,7 +80,8 @@ app.post('/webhook', (req, res) => {
               console.log('webhook ********************, event message: ' + webhook_event.message);
 
             // The bot is no longer waiting for answer
-                SendMessage(sender_psid, webhook_event.message);
+                SendMessage(sender_psid, NlpManager(webhook_event.message));
+                
             } else if (webhook_event.postback) {
               //handlePostback(sender_psid, webhook_event.postback);
             } else if (webhook_event.read) {
