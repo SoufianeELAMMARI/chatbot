@@ -5,7 +5,7 @@ const request = require('request');
 const bodyParser = require('body-parser');
 const verifyWebhook = require('./verify-webhook');
 const {setNotWaiting,getWaiting}  = require('./waiting');
-
+let matchedResponse=null;
 const app = express();
 let FB_PAGE_TOKEN = 'EAAMG5Fcw2fkBALNvTsvqVUay1CBiwNwcQZBDDC1KWeoEqpHpAikIvFsx4XIBq8jIX4w7I1GsZAqrz7ZArWOcjd7TZCVTKZCtxHej1bHxt2uamGqvxtIipLEvfiwZCFUmTgxJULWyYN9OcHObdWjDFiHTnJ3ujYnbZAJ9c4MNCScXBTWrT5k6go6';
 
@@ -21,7 +21,6 @@ app.get('/', (req, res) => {
 
 function NlpManagerHandler(message) {
 const manager = new NlpManager({ languages: ['en'] });
-let matchedResponse=null;
 // Adds the utterances and intents for the NLP
 manager.addDocument('en', 'goodbye for now', 'greetings.bye');
 manager.addDocument('en', 'bye bye take care', 'greetings.bye');
@@ -46,9 +45,7 @@ manager.addAnswer('en', 'greetings.hello', 'Salam!');
     await manager.train();
     manager.save();
     matchedResponse=await manager.process('en', message);
-    console.log(matchedResponse);
 })();
-    return matchedResponse;
   }
 
 
@@ -113,8 +110,7 @@ function SendMessage(sender_psid, message) {
     mark_seen:"mark_seen",
     typing_on:"typing_on",
   }
-  let messageToSend= await NlpManagerHandler(message.text);
-   console.log("---------------messageToSend----------",messageToSend);
+   console.log("---------------messageToSend----------",matchedResponse);
 
   let messageData = {
     "recipient": {
@@ -122,7 +118,7 @@ function SendMessage(sender_psid, message) {
     },
     "messaging_type": "RESPONSE",
      "message":{
-     "text":messageToSend
+     "text":matchedResponse
        }
   }
 
