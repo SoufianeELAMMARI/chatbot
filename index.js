@@ -47,7 +47,7 @@ manager.addAnswer('en', 'greetings.hello', 'Salam!');
     const response = await manager.process('en', message);
     console.log(response );
 })();
-
+   return response;
   }
 
 
