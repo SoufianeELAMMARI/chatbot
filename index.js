@@ -118,14 +118,17 @@ function SendMessage(sender_psid, message) {
     },
     "messaging_type": "RESPONSE",
      "message":{
-     "text":NlpManagerHandler(message.text).then()
+     "text":NlpManagerHandler(message.text).then((res)=>{return res;})
        }
   }
 
   sendAction(sender_psid,action.mark_seen);
+
+
   setTimeout(() => {
     sendAction(sender_psid,action.typing_on);
   }, 1000);
+
   setTimeout(() => {
     callSendAPI(messageData);
   }, 5000);
