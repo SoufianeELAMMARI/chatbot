@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 });
 
 
-function NlpManager(message) {
+function NlpManagerHandler(message) {
 const manager = new NlpManager({ languages: ['en'] });
 // Adds the utterances and intents for the NLP
 manager.addDocument('en', 'goodbye for now', 'greetings.bye');
@@ -80,8 +80,8 @@ app.post('/webhook', (req, res) => {
               console.log('webhook ********************, event message: ' + webhook_event.message);
 
             // The bot is no longer waiting for answer
-                SendMessage(sender_psid, NlpManager(webhook_event.message));
-                
+                SendMessage(sender_psid, NlpManagerHandler(webhook_event.message));
+
             } else if (webhook_event.postback) {
               //handlePostback(sender_psid, webhook_event.postback);
             } else if (webhook_event.read) {
