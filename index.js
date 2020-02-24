@@ -30,10 +30,10 @@ manager.addDocument('en', 'bye for now', 'greetings.bye');
 manager.addDocument('en', 'i must go', 'greetings.bye');
 manager.addDocument('en', 'hello', 'greetings.hello');
 manager.addDocument('en', 'hi', 'greetings.hello');
-manager.addDocument('fr', 'Bonjour', 'greetings.hello');
+manager.addDocument('en', 'Bonjour', 'greetings.hello');
 manager.addDocument('en', 'howdy', 'greetings.hello');
 manager.addDocument('en', 'price', 'greetings.price');
-manager.addAnswer('ar', 'greetings.price', 'the price are suitable !welcom to our Academie');
+manager.addAnswer('en', 'greetings.price', 'the price are suitable !welcom to our Academie');
 
  
 // Train also the NLGs
@@ -41,7 +41,7 @@ manager.addAnswer('en', 'greetings.bye', 'Till next time');
 manager.addAnswer('en', 'greetings.bye', 'see you soon!');
 manager.addAnswer('en', 'greetings.hello', 'Hey there!');
 manager.addAnswer('en', 'greetings.hello', 'Greetings!');
-manager.addAnswer('fr', 'greetings.hello', 'Bonjour ,j\'èspere que vous allez bien ,Bienvenue dans Neo Academie!');
+manager.addAnswer('en', 'greetings.hello', 'Bonjour ,j\'èspere que vous allez bien ,Bienvenue dans Neo Academie!');
 manager.addAnswer('en', 'greetings.price', 'the price are suitable !welcom to our Academie');
 
 // Train and save the model.
