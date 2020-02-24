@@ -21,6 +21,7 @@ app.get('/', (req, res) => {
 
  
 const manager = new NlpManager({ languages: ['en'] });
+
 // Adds the utterances and intents for the NLP
 manager.addDocument('en', 'goodbye for now', 'greetings.bye');
 manager.addDocument('en', 'bye bye take care', 'greetings.bye');
@@ -30,7 +31,7 @@ manager.addDocument('en', 'i must go', 'greetings.bye');
 manager.addDocument('en', 'hello', 'greetings.hello');
 manager.addDocument('en', 'hi', 'greetings.hello');
 manager.addDocument('en', 'howdy', 'greetings.hello');
-manager.addDocument('en', 'salam', 'greetings.hello');
+manager.addDocument('en', 'price', 'greetings.price');
 
  
 // Train also the NLG
@@ -39,21 +40,14 @@ manager.addAnswer('en', 'greetings.bye', 'see you soon!');
 manager.addAnswer('en', 'greetings.hello', 'Hey there!');
 manager.addAnswer('en', 'greetings.hello', 'Greetings!');
 manager.addAnswer('en', 'greetings.hello', 'Salam!');
+manager.addAnswer('en', 'greetings.price', 'the price are suitable !welcom to our Academie');
 
 // Train and save the model.
-/*(async() => {
-    await manager.train();
-    manager.save();
-    const response = await manager.process('en', 'I should go now');
-    matchedResponse = response;
-    console.log(response);
-})();*/
+
 
  async function getDataApi(message){
   await manager.train();
     manager.save();
-    //const response = await manager.process('en', 'I should go now');
-    //console.log(response);
     return await manager.process('en', message);
 }
 
