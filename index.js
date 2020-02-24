@@ -21,6 +21,7 @@ app.get('/', (req, res) => {
 
 function NlpManagerHandler(message) {
 const manager = new NlpManager({ languages: ['en'] });
+let matchedResponse=null;
 // Adds the utterances and intents for the NLP
 manager.addDocument('en', 'goodbye for now', 'greetings.bye');
 manager.addDocument('en', 'bye bye take care', 'greetings.bye');
@@ -44,10 +45,10 @@ manager.addAnswer('en', 'greetings.hello', 'Salam!');
 (async() => {
     await manager.train();
     manager.save();
-    const response = await manager.process('en', message);
+    matchedResponse=await manager.process('en', message);
     console.log(response );
 })();
-   return response;
+    return matchedResponse;
   }
 
 
