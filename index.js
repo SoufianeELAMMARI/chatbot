@@ -118,7 +118,7 @@ function SendMessage(sender_psid, message) {
     },
     "messaging_type": "RESPONSE",
      "message":{
-     "text":NlpManagerHandler(message.text)
+     "text":NlpManagerHandler(message.text).then()
        }
   }
 
