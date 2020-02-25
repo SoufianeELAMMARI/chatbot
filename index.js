@@ -131,6 +131,7 @@ let action={
 
   dataNlp.then((res)=>{   
     let messageData=null;
+    console.log('------------------',res);
     if (res === undefined) {
       messageData = {
         "recipient": {
