@@ -130,16 +130,29 @@ let action={
 
 
   dataNlp.then((res)=>{   
-
-    let messageData = {
-      "recipient": {
-        "id": sender_psid
-      },
-      "messaging_type": "RESPONSE",
-       "message":{
-       "text": res.answer=== "undefined"?"I didn't Get your message ,please try again ^^" :res.answer
-         }
-    }
+    let messageData=null;
+    if (res === undefined) {
+      messageData = {
+        "recipient": {
+          "id": sender_psid
+        },
+        "messaging_type": "RESPONSE",
+         "message":{
+         "text": "I didn't Get your message ,please try again ^^" 
+           }
+      }  
+     }else{
+      messageData = {
+        "recipient": {
+          "id": sender_psid
+        },
+        "messaging_type": "RESPONSE",
+         "message":{
+         "text": res.answer
+           }
+      }  
+     }
+    
     
     setTimeout(() => {
     callSendAPI(messageData);
