@@ -1,4 +1,4 @@
-const { NlpManager } = require('node-nlp');
+Rconst { NlpManager } = require('node-nlp');
 var PORT = process.env.PORT || 5000;
 const express = require('express');
 const request = require('request');
@@ -187,7 +187,7 @@ var callSendAPI = (messageData) => {
       }
       messageDataError = {
         "recipient": {
-          "id": sender_psid
+          "id": recipientID
         },
         "messaging_type": "RESPONSE",
          "message":{
