@@ -1,4 +1,4 @@
-Rconst { NlpManager } = require('node-nlp');
+const { NlpManager } = require('node-nlp');
 var PORT = process.env.PORT || 5000;
 const express = require('express');
 const request = require('request');
