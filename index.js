@@ -191,7 +191,7 @@ var callSendAPI = (messageData) => {
         },
         "messaging_type": "RESPONSE",
          "message":{
-         "text": res.answer
+         "text": "I can't get you message,please try again ^^"
            }
       } 
       sendAction(recipientID,action.typing_off); 
