@@ -113,21 +113,13 @@ function SendMessage(sender_psid, message) {
   console.log("-------------- before-dataNlp----------");
 const dataNlp= getDataApi(message.text);
   // Construct the message body*
-      dataNlp.then((res)=>{
+ 
 let action={
     mark_seen:"mark_seen",
     typing_on:"typing_on",
   }
 
-  let messageData = {
-    "recipient": {
-      "id": sender_psid
-    },
-    "messaging_type": "RESPONSE",
-     "message":{
-     "text": res.answer
-       }
-  }
+
        
   sendAction(sender_psid,action.mark_seen);
 
@@ -136,11 +128,39 @@ let action={
     sendAction(sender_psid,action.typing_on);
   }, 1000);
 
-  setTimeout(() => {
+
+  dataNlp.then((res)=>{   
+    let messageData = {
+      "recipient": {
+        "id": sender_psid
+      },
+      "messaging_type": "RESPONSE",
+       "message":{
+       "text": res.answer
+         }
+    }
+    
+    setTimeout(() => {
     callSendAPI(messageData);
-  }, 3000);
+  }, 3000); 
+} ).catch((res)=>{   
+  let messageData = {
+    "recipient": {
+      "id": sender_psid
+    },
+    "messaging_type": "RESPONSE",
+     "message":{
+     "text": "I didn't Get your message ,please try again ^^"
+       }
+  }
+  
+  setTimeout(() => {
+  callSendAPI(messageData);
+}, 3000); 
+} );
+
    
-      } );
+  
 }
 
 // Sends response messages via the Send API
