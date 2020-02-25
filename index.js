@@ -1,4 +1,4 @@
-const { NlpManager,ConversationContext  } = require('node-nlp');
+const { NlpManager } = require('node-nlp');
 var PORT = process.env.PORT || 5000;
 const express = require('express');
 const request = require('request');
@@ -21,7 +21,6 @@ app.get('/', (req, res) => {
 
  
 const manager = new NlpManager({ languages: ['en'] });
-const context = new ConversationContext();
 
 // Adds the utterances and intents for the NLP
 manager.addDocument('en', 'goodbye for now', 'greetings.bye');
