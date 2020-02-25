@@ -130,22 +130,21 @@ let action={
 
 
   dataNlp.then((res)=>{   
+
     let messageData = {
       "recipient": {
         "id": sender_psid
       },
       "messaging_type": "RESPONSE",
        "message":{
-       "text": res.answer
+       "text": res.answer=== "undefined"?"I didn't Get your message ,please try again ^^" :res.answer
          }
     }
     
     setTimeout(() => {
     callSendAPI(messageData);
   }, 3000); 
-} ).catch(() => {
-  console.error('erreur d\'envoi');
-});
+} );
 
    
   
