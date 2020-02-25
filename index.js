@@ -180,24 +180,7 @@ var callSendAPI = (messageData) => {
        var recipientID = body.recipient_id;
        var messageID = body.message_id;
      } else {
-      let action={
-        mark_seen:"mark_seen",
-        typing_on:"typing_on",
-        typing_off:"typing_off",
-      }
-      messageDataError = {
-        "recipient": {
-          "id": recipientID
-        },
-        "messaging_type": "RESPONSE",
-         "message":{
-         "text": "I can't get you message,please try again ^^"
-           }
-      } 
-      sendAction(recipientID,action.typing_off); 
-      setTimeout(() => {
-        callSendAPI(messageData);
-      }, 1000);
+     
      }
 
   });
