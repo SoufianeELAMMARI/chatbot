@@ -1,4 +1,4 @@
-const { NlpManager } = require('node-nlp');
+const { NlpManager,ConversationContext  } = require('node-nlp');
 var PORT = process.env.PORT || 5000;
 const express = require('express');
 const request = require('request');
@@ -21,6 +21,7 @@ app.get('/', (req, res) => {
 
  
 const manager = new NlpManager({ languages: ['en'] });
+const context = new ConversationContext();
 
 // Adds the utterances and intents for the NLP
 manager.addDocument('en', 'goodbye for now', 'greetings.bye');
@@ -28,12 +29,13 @@ manager.addDocument('en', 'bye bye take care', 'greetings.bye');
 manager.addDocument('en', 'okay see you later', 'greetings.bye');
 manager.addDocument('en', 'bye for now', 'greetings.bye');
 manager.addDocument('en', 'i must go', 'greetings.bye');
+
+
 manager.addDocument('en', 'hello', 'greetings.hello');
 manager.addDocument('en', 'hi', 'greetings.hello');
 manager.addDocument('en', 'Bonjour', 'greetings.hello');
 manager.addDocument('en', 'howdy', 'greetings.hello');
 manager.addDocument('en', 'price', 'greetings.price');
-manager.addAnswer('en', 'greetings.price', 'the price are suitable !welcom to our Academie');
 
  
 // Train also the NLGs
@@ -131,18 +133,6 @@ let action={
 
   dataNlp.then((res)=>{   
     let messageData=null;
-    console.log('------------------',res);
-    if (res === undefined) {
-      messageData = {
-        "recipient": {
-          "id": sender_psid
-        },
-        "messaging_type": "RESPONSE",
-         "message":{
-         "text": "I didn't Get your message ,please try again ^^" 
-           }
-      }  
-     }else{
       messageData = {
         "recipient": {
           "id": sender_psid
@@ -151,10 +141,8 @@ let action={
          "message":{
          "text": res.answer
            }
-      }  
-     }
-    
-    
+      } 
+  
     setTimeout(() => {
     callSendAPI(messageData);
   }, 3000); 
@@ -193,8 +181,24 @@ var callSendAPI = (messageData) => {
        var recipientID = body.recipient_id;
        var messageID = body.message_id;
      } else {
-       console.error(`#### Message sent errors ####`);
-       console.error(error);
+      let action={
+        mark_seen:"mark_seen",
+        typing_on:"typing_on",
+        typing_off:"typing_off",
+      }
+      messageDataError = {
+        "recipient": {
+          "id": sender_psid
+        },
+        "messaging_type": "RESPONSE",
+         "message":{
+         "text": res.answer
+           }
+      } 
+      sendAction(recipientID,action.typing_off); 
+      setTimeout(() => {
+        callSendAPI(messageData);
+      }, 1000);
      }
 
   });
