@@ -113,7 +113,7 @@ function SendMessage(sender_psid, message) {
   console.log("-------------- before-dataNlp----------");
 const dataNlp= getDataApi(message.text);
   // Construct the message body*
-   
+      dataNlp.then((res)=>{
 let action={
     mark_seen:"mark_seen",
     typing_on:"typing_on",
@@ -136,19 +136,11 @@ let action={
     sendAction(sender_psid,action.typing_on);
   }, 1000);
 
-
-   dataNlp.then((res)=>{
   setTimeout(() => {
     callSendAPI(messageData);
   }, 3000);
    
-      } ).catch(function(error){
-   setTimeout(() => {
-    callSendAPI("I didn't Get your message ,please try again ^^");
-  }, 3000);
-  };
-  
-
+      } );
 }
 
 // Sends response messages via the Send API
