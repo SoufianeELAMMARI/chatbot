@@ -111,8 +111,8 @@ app.post('/webhook', (req, res) => {
 // Sends response messages via the Send API
 function SendMessage(sender_psid, message) {
 
-  console.log("-------------- before-dataNlp----------");
-const dataNlp= getDataApi(message.text);
+
+  const dataNlp= getDataApi(message.text);
   // Construct the message body*
  
 let action={

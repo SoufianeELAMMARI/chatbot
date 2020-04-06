@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+    <META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+
+
+
+        <head>
+          <title>Formulaire</title>
+        </head>
+        
+        <body>
+        
+          <script>
+            (function(d, s, id){
+              var js, fjs = d.getElementsByTagName(s)[0];
+              if (d.getElementById(id)) {return;}
+              js = d.createElement(s); js.id = id;
+              js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
+              fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'Messenger'));
+          </script>
+        
+          <form action="https://botmessanger.herokuapp.com/completeForm" method="POST">
+        
+        
+        <table>
+        
+            <tr>
+                <th><label for="last_name">Nom</label></th>
+                <th><input  id="last_name"  name="last_name"  type="text" required/></th>
+            </tr>
+             <tr>
+                <th><label for="first_name">Prénom</label></th>
+                <th><input  id="first_name"  name="first_name"  type="text" required/></th>
+            </tr>
+            <tr>
+                <th><label for="email">Email</label></th>
+                <th><input  id="email"  name="email" type="email" required/></th>
+            </tr>
+            <tr>
+                <th><label for="phone">N° téléphone</label></th>
+                <th><input  id="phone" name="phone" type="number" required/></th>
+            </tr>
+            <tr>
+                <th><label for="company">Compagnie</label></th>
+                <th><input  id="company"  name="company"  type="text" required/></th>
+            </tr>
+            <tr>
+                <th><label for="city">Ville</label></th>
+                <th><input  id="city"  name="city" type="text" /></th>
+            </tr>
+            <tr>
+                <th><label for="country">Pays</label></th>
+                <th><input  id="country"  name="country"  type="text" /></th>
+            </tr>
+        
+            <tr>
+                <th></th>
+                <th><input  id="senderID"  name="senderID"  value=<%= senderID %> required/></th>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th><input type="submit" name="submit"></th>
+            </tr>
+        </table>
+        </form>    
+        </body>
+        
+</html>
