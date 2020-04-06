@@ -108,6 +108,27 @@ app.post('/webhook', (req, res) => {
 
 });
 
+
+//Form : Web to Lead
+app.set('view engine', 'ejs');
+app.set('views', './views');
+//app.use(express.static(__dirname + '/views'));
+
+
+app.get("/form/:senderID", function(req, res){
+  //var senderID = req.param("senderID");
+  //res.sendfile('./views/form.html');
+  res.render('pages/index',  {senderID: req.params.senderID});
+});
+
+app.post("/completeForm", function(req, res){
+  //TODO Check if there's no error, then send a message
+  res.send('Merci :) !');
+  //res.render('completeForm');
+  //console.log("REQ BODY Complete form: ", req.body);
+});
+
+
 // Sends response messages via the Send API
 function SendMessage(sender_psid, message) {
 
